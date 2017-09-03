@@ -62,6 +62,8 @@ encoder h d
     <> (BB.word8 . fromIntegral $ BS.length d)
     <> byteString d
 
+encodeMultihashDigest :: MultihashDigest -> BL.ByteString
+encodeMultihashDigest mhd = encode (algorithm mhd) (digest mhd)
 
 decode :: BS.ByteString -> Either String MultihashDigest
 decode = parseOnly decoder
