@@ -1,5 +1,5 @@
 name:                multihash
-version:             0.1.4
+version:             0.2.0
 synopsis:            Multihash library and CLI executable
 description:         Multihash is a protocol for encoding the hash algorithm
                      and digest length at the start of the digest.
@@ -11,16 +11,16 @@ description:         Multihash is a protocol for encoding the hash algorithm
 license:             BSD3
 license-file:        LICENSE
 author:              Luke Hoersten
-maintainer:          luke@hoersten.org
+maintainer:          quoc.ho@matrix.ai
 copyright:           2015 Luke Hoersten
 category:            Data
 build-type:          Simple
 cabal-version:       >=1.10
-homepage:            https://github.com/LukeHoersten/multihash
+homepage:            https://github.com/MatrixAI/haskell-multihash
 
 source-repository head
   type: git
-  location: git://github.com/LukeHoersten/multihash.git
+  location: git://github.com/MatrixAI/haskell-multihash.git
 
 
 library
@@ -37,9 +37,10 @@ library
                , base58-bytestring >= 0.1  && < 0.2
                , base64-bytestring >= 1.0  && < 1.1
                , bytestring        >= 0.10 && < 0.11
-               , cryptohash        >= 0.11 && < 0.12
+               , cryptonite        >= 0.23 && < 0.24
                , hex               >= 0.1  && < 0.2
                , io-streams        >= 1.2  && < 1.5
+               , memory            >= 0.14 && < 0.15
 
 
 executable multihash
@@ -55,8 +56,8 @@ executable multihash
                , base58-bytestring    >= 0.1  && < 0.2
                , byteable             >= 0.1  && < 0.2
                , bytestring           >= 0.10 && < 0.11
-               , cryptohash           >= 0.11 && < 0.12
+               , cryptonite           >= 0.23 && < 0.24
                , hex                  >= 0.1  && < 0.2
                , io-streams           >= 1.2  && < 1.5
-               , multihash            >= 0.1  && < 0.2
+               , multihash            >= 0.2  && < 0.3
                , optparse-applicative >= 0.11 && < 0.14

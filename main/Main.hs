@@ -2,30 +2,24 @@
 
 module Main where
 
-import           Crypto.Hash              (Digest)
-import qualified Crypto.Hash              as CH
-import           Data.Byteable            (toBytes)
-import           Data.ByteString          (ByteString)
-import           Data.ByteString.Lazy     (toStrict)
-import           Data.Monoid              ((<>))
+import           Data.ByteString.Lazy  (toStrict)
+import           Data.Monoid           ((<>))
 import           Options.Applicative
 
-import           System.IO.Streams        (InputStream, stdin, stdout,
-                                           withFileAsInput, write)
-import           System.IO.Streams.Crypto (hashInputStream)
+import           System.IO.Streams     (stdin, stdout, withFileAsInput, write)
 
-import qualified Data.Multihash.Base      as MB
-import qualified Data.Multihash.Digest    as MH
+import qualified Data.Multihash.Base   as MB
+import qualified Data.Multihash.Digest as MH
 
 
 data Termination = Null | Newline deriving (Show, Eq)
 data Config =
     Config
-    { cfFile :: Maybe FilePath
-    , cfAlgo :: MH.HashAlgorithm
-    , cfBase :: MB.BaseEncoding
-    , cfHash :: Maybe MH.Digest
-    , cfTerm :: Termination
+    { cfFile       :: Maybe FilePath
+    , cfAlgo       :: MH.HashAlgorithm
+    , cfBase       :: MB.BaseEncoding
+    , cfhashStream :: Maybe MH.Digest
+    , cfTerm       :: Termination
     } deriving Show
 
 
@@ -34,25 +28,15 @@ main = do
     -- TODO add file checking
     config <- execParser opts
     digest <- maybe (hashStdin config) (hashFile config) $ cfFile config
-    write (multihash config digest) stdout
+    write (multihashStream config digest) stdout
   where
-    hashStdin config = hash (cfAlgo config) stdin
-    hashFile config file = withFileAsInput file . hash $ cfAlgo config
-    multihash (Config _file algo base _hash term) =
+    hashStdin config = MH.hashStream (cfAlgo config) stdin
+    hashFile config file = withFileAsInput file . MH.hashStream $ cfAlgo config
+    multihashStream (Config _file algo base _hashStream term) =
         Just . toStrict . line term . MB.encode base . MH.encode algo
 
     line Null    = (<> "\0")
     line Newline = (<> "\n")
-
-
--- TODO add BLAKE support
-hash :: MH.HashAlgorithm -> InputStream ByteString -> IO MH.Digest
-hash MH.SHA1 is   = toBytes <$> (hashInputStream is :: IO (Digest CH.SHA1))
-hash MH.SHA256 is = toBytes <$> (hashInputStream is :: IO (Digest CH.SHA256))
-hash MH.SHA512 is = toBytes <$> (hashInputStream is :: IO (Digest CH.SHA512))
-hash MH.SHA3 is   = toBytes <$> (hashInputStream is :: IO (Digest CH.SHA3_256))
-hash MH.BLAKE2B _ = undefined
-hash MH.BLAKE2S _ = undefined
 
 
 opts :: ParserInfo Config
@@ -65,8 +49,8 @@ opts = info
                     <*> nullTermFlag
                    ))
        (fullDesc
-        <> header "Generate a multihash for the given input."
-        <> progDesc "Hash from FILE or stdin if not given.")
+        <> header "Generate a multihashStream for the given input."
+        <> progDesc "hashStream from FILE or stdin if not given.")
 
 
 algoOpt :: Parser MH.HashAlgorithm
@@ -76,7 +60,7 @@ algoOpt =
     <> short 'a'
     <> metavar "ALGO"
     <> showDefault <> value MH.SHA256
-    <> help ("Hash algorithm to apply to input, ignored if checking hash " <> show ([minBound..] :: [MH.HashAlgorithm]))
+    <> help ("hashStream algorithm to apply to input, ignored if checking hashStream " <> show ([minBound..] :: [MH.HashAlgorithm]))
 
 
 baseOpt :: Parser MB.BaseEncoding
@@ -86,7 +70,7 @@ baseOpt =
     <> short 'e'
     <> metavar "ENCODING"
     <> showDefault <> value MB.Base58
-    <> help ("Base encoding of output digest, ignored if checking hash " <> show ([minBound..] :: [MB.BaseEncoding]))
+    <> help ("Base encoding of output digest, ignored if checking hashStream " <> show ([minBound..] :: [MB.BaseEncoding]))
 
 
 checkOpt :: Parser (Maybe MH.Digest)
