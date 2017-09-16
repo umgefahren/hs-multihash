@@ -1,5 +1,5 @@
 name:                multihash
-version:             0.2.0
+version:             0.2.1
 synopsis:            Multihash library and CLI executable
 description:         Multihash is a protocol for encoding the hash algorithm
                      and digest length at the start of the digest.
