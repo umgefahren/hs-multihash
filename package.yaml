@@ -1,0 +1,50 @@
+name: hs-multihash
+version: 0.2.1
+github: 'MatrixAI/hs-multihash'
+license: BSD3
+author: ['Luke Hoersten', 'Quoc-An Ho', 'CMCDragonkai']
+maintainer: 'roger.qiu@matrix.ai'
+copyright: ['2015 Luke Hoersten', '(c) Matrix AI 2017']
+category: Data
+synopsis: Multihash library and CLI executable
+description: Multihash is a protocol for encoding the hash algorithm and digest length at the start of the digest. More information available at the official <https://github.com/jbenet/multihash/multihash>.
+
+extra-source-files:
+  - README.md
+
+dependencies:
+  - base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Data.Multihash.Base
+    - Data.Multihash.Digest
+    - System.IO.Streams.Crypto
+  dependencies:
+    - attoparsec >= 0.12 && < 0.14
+    - base58-bytestring >= 0.1  && < 0.2
+    - base64-bytestring >= 1.0  && < 1.1
+    - bytestring >= 0.10 && < 0.11
+    - cryptonite >= 0.23 && < 0.26
+    - hex >= 0.1  && < 0.2
+    - io-streams >= 1.2  && < 1.6
+    - memory >= 0.14 && < 0.15
+
+executables:
+  multihash-exe:
+    main: Main.hs
+    source-dirs: app
+    dependencies:
+      - hs-multihash
+      - bytestring >= 0.10 && < 0.11
+      - io-streams >= 1.2 && < 1.6
+      - optparse-applicative >= 0.11 && < 0.15
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+      - -Wall
+      - -funbox-strict-fields
+      - -fdicts-cheap
+      - -O2

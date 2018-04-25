@@ -1,0 +1,66 @@
+-- This file has been generated from package.yaml by hpack version 0.21.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: ddde6f1fe1b853d0aa6e5433fe4f30bf257dd706c3678818fc19c04c714842c8
+
+name:           hs-multihash
+version:        0.2.1
+synopsis:       Multihash library and CLI executable
+description:    Multihash is a protocol for encoding the hash algorithm and digest length at the start of the digest. More information available at the official <https://github.com/jbenet/multihash/multihash>.
+category:       Data
+homepage:       https://github.com/MatrixAI/hs-multihash#readme
+bug-reports:    https://github.com/MatrixAI/hs-multihash/issues
+author:         Luke Hoersten,
+                Quoc-An Ho,
+                CMCDragonkai
+maintainer:     roger.qiu@matrix.ai
+copyright:      2015 Luke Hoersten,
+                (c) Matrix AI 2017
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/MatrixAI/hs-multihash
+
+library
+  exposed-modules:
+      Data.Multihash.Base
+      Data.Multihash.Digest
+      System.IO.Streams.Crypto
+  other-modules:
+      Paths_hs_multihash
+  hs-source-dirs:
+      src
+  build-depends:
+      attoparsec >=0.12 && <0.14
+    , base >=4.7 && <5
+    , base58-bytestring >=0.1 && <0.2
+    , base64-bytestring >=1.0 && <1.1
+    , bytestring >=0.10 && <0.11
+    , cryptonite >=0.23 && <0.26
+    , hex >=0.1 && <0.2
+    , io-streams >=1.2 && <1.6
+    , memory >=0.14 && <0.15
+  default-language: Haskell2010
+
+executable multihash-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_hs_multihash
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall -funbox-strict-fields -fdicts-cheap -O2
+  build-depends:
+      base >=4.7 && <5
+    , bytestring >=0.10 && <0.11
+    , hs-multihash
+    , io-streams >=1.2 && <1.6
+    , optparse-applicative >=0.11 && <0.15
+  default-language: Haskell2010
