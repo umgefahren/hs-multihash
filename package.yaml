@@ -1,16 +1,18 @@
-name: hs-multihash
-version: 0.2.1
-github: 'MatrixAI/hs-multihash'
-license: BSD3
-author: ['Luke Hoersten', 'Quoc-An Ho', 'CMCDragonkai']
-maintainer: 'roger.qiu@matrix.ai'
-copyright: ['2015 Luke Hoersten', '(c) Matrix AI 2017']
-category: Data
-synopsis: Multihash library and CLI executable
-description: Multihash is a protocol for encoding the hash algorithm and digest length at the start of the digest. More information available at the official <https://github.com/jbenet/multihash/multihash>.
+name:                hs-multihash
+version:             0.2.1
+github:              'MatrixAI/hs-multihash'
+license:             BSD3
+author:              ['Luke Hoersten', 'Quoc-An Ho', 'CMCDragonkai']
+maintainer:          'roger.qiu@matrix.ai'
+copyright:           ['2015 Luke Hoersten', '(c) Matrix AI 2017']
+category:            Data
+synopsis:            Multihash library and CLI executable
 
 extra-source-files:
-  - README.md
+- README.md
+- package.yaml
+
+description:         Multihash is a protocol for encoding the hash algorithm and digest length at the start of the digest. More information available at the official <https://github.com/jbenet/multihash/multihash>.
 
 dependencies:
   - base >= 4.7 && < 5

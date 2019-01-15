@@ -1,3 +1,8 @@
+/.env
+/result
+/result-*
+/*.cabal
+
 dist
 dist-*
 cabal-dev
