@@ -1,24 +1,23 @@
-{
-  pkgs ? import ./pkgs.nix,
-  haskellPath ? "ghc843"
+{ mkDerivation, attoparsec, base, base58-bytestring
+, base64-bytestring, bytestring, cryptonite, hex, hpack, io-streams
+, memory, optparse-applicative, stdenv
 }:
-  with pkgs;
-  let
-    haskellPackages = lib.getAttrFromPath (lib.splitString "." haskellPath) haskell.packages;
-    drv = haskellPackages.callPackage (import ./cabal.nix) {};
-  in
-    haskell.lib.buildStrictly (
-      drv.overrideAttrs (attrs: {
-        src = lib.cleanSourceWith {
-          filter = (path: type:
-            ! (builtins.any
-              (r: (builtins.match r (builtins.baseNameOf path)) != null)
-              [
-                "dist"
-                "\.env"
-              ])
-          );
-          src = lib.cleanSource attrs.src;
-        };
-      })
-    )
+mkDerivation {
+  pname = "hs-multihash";
+  version = "0.2.1";
+  src = ./.;
+  isLibrary = true;
+  isExecutable = true;
+  libraryHaskellDepends = [
+    attoparsec base base58-bytestring base64-bytestring bytestring
+    cryptonite hex io-streams memory
+  ];
+  libraryToolDepends = [ hpack ];
+  executableHaskellDepends = [
+    base bytestring io-streams optparse-applicative
+  ];
+  prePatch = "hpack";
+  homepage = "https://github.com/MatrixAI/hs-multihash#readme";
+  description = "Multihash library and CLI executable";
+  license = stdenv.lib.licenses.bsd3;
+}

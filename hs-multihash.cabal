@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.28.2.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 609ced23e42b6fce02932cb81fa856d6e799467925f12f1544c303f5027b49f8
+-- hash: 2944cdbebc8e14f5ea687b1b2717e646305e4c56a039f73cb80934dd453f5d2e
 
 name:           hs-multihash
 version:        0.2.1
@@ -20,10 +22,9 @@ copyright:      2015 Luke Hoersten,
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
-cabal-version:  >= 1.10
 extra-source-files:
-    package.yaml
     README.md
+    package.yaml
 
 source-repository head
   type: git
