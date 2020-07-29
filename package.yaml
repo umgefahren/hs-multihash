@@ -24,14 +24,14 @@ library:
     - Data.Multihash.Digest
     - System.IO.Streams.Crypto
   dependencies:
-    - attoparsec >= 0.12 && < 0.14
-    - base58-bytestring >= 0.1  && < 0.2
-    - base64-bytestring >= 1.0  && < 1.1
-    - bytestring >= 0.10 && < 0.11
-    - cryptonite >= 0.23 && < 0.26
-    - hex >= 0.1  && < 0.2
-    - io-streams >= 1.2  && < 1.6
-    - memory >= 0.14 && < 0.15
+    - attoparsec
+    - base58-bytestring
+    - base64-bytestring
+    - bytestring
+    - cryptonite
+    - hex
+    - io-streams
+    - memory
 
 executables:
   multihash-exe:
@@ -39,9 +39,9 @@ executables:
     source-dirs: app
     dependencies:
       - hs-multihash
-      - bytestring >= 0.10 && < 0.11
-      - io-streams >= 1.2 && < 1.6
-      - optparse-applicative >= 0.11 && < 0.15
+      - bytestring
+      - io-streams
+      - optparse-applicative
     ghc-options:
       - -threaded
       - -rtsopts
